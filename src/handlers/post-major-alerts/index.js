@@ -15,17 +15,15 @@ exports.postMajorAlerttoBigQuery = function (event, callback) {
       .insert({"data":JSON.stringify(event.data)})
       .then((insertErrors) => {
         if(insertErrors) {
-          res.status(500).end();
+          Logging.logError(insertErrors);
+          callback(insertErrors);
         }
-        res.status(200).end();
+        callback();
       })
       .catch((err) => {
-        Logging.logError(err, req, res, null, (err) => {
-          res.status(500).end();
-        })
+        Logging.logError(err);
+        callback(err);
       });
-    
-    callback();
 };
 
 

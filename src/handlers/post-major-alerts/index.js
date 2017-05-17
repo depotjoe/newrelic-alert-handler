@@ -1,3 +1,4 @@
+require('@google-cloud/debug-agent').start();
 const bigQuery = require('@google-cloud/bigquery');
 
 exports.postMajorAlert = function postMajorAlert (req, res) {

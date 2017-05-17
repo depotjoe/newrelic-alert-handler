@@ -15,12 +15,16 @@ exports.postMajorAlert = function postMajorAlert (req, res) {
       .table(tableId)
       .insert(req.body)
       .then((insertErrors) => {
-        if(insertErrors) 
+        if(insertErrors) {
+          throw new Error(err);
           res.status(500).end();
+        }
+          
 
         res.status(200).end();
       })
       .catch((err) => {
+        throw new Error(err);
         res.status(500).end();
       });
   }

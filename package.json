@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/depotjoe/newrelic-alert-handler/issues"
   },
-  "homepage": "https://github.com/depotjoe/newrelic-alert-handler#readme"
+  "homepage": "https://github.com/depotjoe/newrelic-alert-handler#readme",
+  "dependencies": {
+    "@google-cloud/bigquery": "latest"
+  }
 }

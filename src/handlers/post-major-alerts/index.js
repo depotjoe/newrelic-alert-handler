@@ -1,7 +1,4 @@
-const bigQuery = require('google-cloud')
-                  .bigquery({
-                    projectId: projectId
-                  });
+const bigQuery = require('@google-cloud/bigquery');
 
 exports.postMajorAlert = function postMajorAlert (req, res) {
   if (req.body === undefined) {
@@ -11,8 +8,9 @@ exports.postMajorAlert = function postMajorAlert (req, res) {
     let projectId = "quotecenter-dev";
     let datasetId = "Monitors_Alerts";
     let tableId = "all_newrelic_alerts";
+    let bq = bigQuery({projectId: projectId});
     
-    bigQuery.dataset(datasetId)
+    bq.dataset(datasetId)
       .table(tableId)
       .insert(req.body)
       .then((insertErrors) => {

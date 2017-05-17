@@ -9,12 +9,12 @@ exports.postMajorAlert = function postMajorAlert (req, res) {
   } else {
     let projectId = "quotecenter-dev";
     let datasetId = "Monitors_Alerts";
-    let tableId = "all_newrelic_alerts";
+    let tableId = "raw_alerts";
     let bq = bigQuery({projectId: projectId});
     
     bq.dataset(datasetId)
       .table(tableId)
-      .insert(req.body)
+      .insert({"data":JSON.stringify(req.body)})
       .then((insertErrors) => {
         if(insertErrors) {
           res.status(500).end();

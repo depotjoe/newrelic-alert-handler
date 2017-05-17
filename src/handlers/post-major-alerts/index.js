@@ -18,7 +18,9 @@ exports.postMajorAlerttoBigQuery = function (event, callback) {
           Logging.logError(insertErrors);
           callback(insertErrors);
         }
-        callback();
+        else {
+          callback();
+        }
       })
       .catch((err) => {
         Logging.logError(err);

@@ -46,8 +46,11 @@ exports.postMajorAlert = function postMajorAlert (req, res) {
       .publish({'data': JSON.stringify(req.body)}, (err) => {
         if(err) {
           Logging.logError(err, req, res, null, ()=>{});
+          res.status(500).end();
         }
-
+        else {
+          res.status(200).end();
+        }
       });
   }
 };

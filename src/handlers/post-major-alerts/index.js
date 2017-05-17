@@ -5,6 +5,7 @@ exports.postMajorAlert = function postMajorAlert (req, res) {
   } else {
     // Everything is ok
     //console.log(req.body.message);
+    res.body = req.body;
     res.status(200).end();
   }
 };

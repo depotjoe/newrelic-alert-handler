@@ -5,24 +5,18 @@ const Logging = require('./errors');
 
 const projectId = "quotecenter-dev";
 
-exports.postMajorAlerttoBigQuery = function postMajorAlert (req, res) {
-  if (req.body === undefined) {
-    // This is an error case, as "message" is required
-    res.status(400).send('No message defined!');
-  } else {
+exports.postMajorAlerttoBigQuery = function (event, callback) {
     let datasetId = "Monitors_Alerts";
     let tableId = "raw_alerts";
     let bq = bigQuery({projectId: projectId});
     
     bq.dataset(datasetId)
       .table(tableId)
-      .insert({"data":JSON.stringify(req.body)})
+      .insert({"data":JSON.stringify(event.data)})
       .then((insertErrors) => {
         if(insertErrors) {
           res.status(500).end();
         }
-          
-
         res.status(200).end();
       })
       .catch((err) => {
@@ -30,11 +24,12 @@ exports.postMajorAlerttoBigQuery = function postMajorAlert (req, res) {
           res.status(500).end();
         })
       });
-  }
+    
+    callback();
 };
 
 
-exports.postMajorAlert = function postMajorAlert (req, res) {
+exports.postMajorAlert = function (req, res) {
   if (req.body === undefined) {
     // This is an error case, as "message" is required
     res.status(400).send('No message defined!');

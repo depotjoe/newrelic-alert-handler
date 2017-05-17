@@ -1,5 +1,6 @@
 require('@google-cloud/debug-agent').start();
 const bigQuery = require('@google-cloud/bigquery');
+const Logging = require('./errors');
 
 exports.postMajorAlert = function postMajorAlert (req, res) {
   if (req.body === undefined) {
@@ -16,7 +17,6 @@ exports.postMajorAlert = function postMajorAlert (req, res) {
       .insert(req.body)
       .then((insertErrors) => {
         if(insertErrors) {
-          throw new Error(err);
           res.status(500).end();
         }
           
@@ -24,8 +24,9 @@ exports.postMajorAlert = function postMajorAlert (req, res) {
         res.status(200).end();
       })
       .catch((err) => {
-        throw new Error(err);
-        res.status(500).end();
+        Logging.logError(err, req, res, null, (err) => {
+          res.status(500).end();
+        })
       });
   }
 };

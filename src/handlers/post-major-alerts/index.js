@@ -6,6 +6,7 @@ const Logging = require('./errors');
 const projectId = "quotecenter-dev";
 
 exports.postMajorAlerttoBigQuery = function (event, callback) {
+  if(event.data) {
     let datasetId = "Monitors_Alerts";
     let tableId = "raw_alerts";
     let bq = bigQuery({projectId: projectId});
@@ -25,7 +26,10 @@ exports.postMajorAlerttoBigQuery = function (event, callback) {
       .catch((err) => {
         Logging.logError(err);
         callback(err);
-      });
+      });  }
+  else {
+    Logging.logError('event data not provided.')
+  }
 };
 
 

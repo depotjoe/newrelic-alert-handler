@@ -18,6 +18,7 @@
   "homepage": "https://github.com/depotjoe/newrelic-alert-handler#readme",
   "dependencies": {
     "@google-cloud/bigquery": "latest",
+    "@google-cloud/pubsub": "latest",
     "@google-cloud/debug-agent": "latest",
     "@google-cloud/logging": "latest"
   }

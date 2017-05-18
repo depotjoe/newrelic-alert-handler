@@ -29,6 +29,7 @@ exports.postMajorAlerttoBigQuery = function (event, callback) {
       });  }
   else {
     Logging.logError('event data not provided.')
+    callback('event data not provided.');
   }
 };
 
@@ -41,8 +42,14 @@ exports.postMajorAlert = function (req, res) {
     let ps = pubSub({projectId: projectId});
     let topicName = 'monitors.alerts.newrelic.major';
 
+    if(req.body.targets.length > 0) {
+      for(thisTarget=0;thisTarget<req.body.targets.length;thisTarget++){
+        req.body.targets[thisTarget].labels = JSON.stringify(req.body.targets[thisTarget].labels);
+      }
+    }
+
     ps.topic(topicName)
-      .publish({'data': JSON.stringify(req.body)}, (err) => {
+      .publish(req.body, (err) => {
         if(err) {
           Logging.logError(err, req, res, null, ()=>{});
           res.status(500).end();
